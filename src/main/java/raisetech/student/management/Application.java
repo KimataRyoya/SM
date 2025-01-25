@@ -1,5 +1,6 @@
 package raisetech.student.management;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +16,7 @@ public class Application {
   private String name = "Enami kouji";
   private String age = "37";
 
-  private Map<String,String> student;
+  private Map<String,String> studentMap = Map.of("Inoue","28歳","Usami","27歳");
 
 
   public static void main(String[] args) {
@@ -25,6 +26,11 @@ public class Application {
   @GetMapping("/studentInfo")
   public String getStudentInfo() {
     return name + " " + age + "歳";
+  }
+
+  @GetMapping("/studentMap")
+  public String getstudentMap(){
+    return studentMap.toString();
   }
 
   @PostMapping("/studentInfo")
@@ -37,5 +43,7 @@ public class Application {
   public void updateStudentName(String name){
     this.name = name;
   }
+
+
 
 }
