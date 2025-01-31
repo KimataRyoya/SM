@@ -15,35 +15,40 @@ public class Application {
 
   private String name = "Enami kouji";
   private String age = "37";
-
-  private Map<String,String> studentMap = Map.of("Inoue","28歳","Usami","27歳");
+  private Map<String, String> student = new HashMap<>();
 
 
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
   }
-
+  //nameとageをget
   @GetMapping("/studentInfo")
   public String getStudentInfo() {
     return name + " " + age + "歳";
   }
 
+  //Mapをget
   @GetMapping("/studentMap")
-  public String getstudentMap(){
-    return studentMap.toString();
-  }
+  public Map<String, String> getStudentMap() {
+    return student;
 
+  }
+  //nameとageにPost
   @PostMapping("/studentInfo")
-  public void setStundentInfo(String name,String age) {
+  public void setStundentInfo(String name, String age) {
     this.name = name;
     this.age = age;
   }
-
+  //nameにPost
   @PostMapping("/studentName")
-  public void updateStudentName(String name){
+  public void updateStudentName(String name) {
     this.name = name;
   }
-
+  //MapにPost
+  @PostMapping("/studentMap")
+  public void addStudentMap(String name,String age) {
+    student.put(name,age);
+  }
 
 
 }
