@@ -20,14 +20,15 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 
-  //nameとageをget
-  @GetMapping("/student")
+  @GetMapping("/studentList")
   public List<Student> getStudentList() {
     return repository.search();
 
-    System.out.println(name);
   }
 
-
+  @GetMapping("/studentCoursesList")
+  public List<StudentCourses> getStudentCoursesList() {
+    return repository.searchCourses();
+  }
 
 }
