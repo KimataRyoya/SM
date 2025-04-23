@@ -1,19 +1,19 @@
 package raisetech.student.management.service;
 
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.student.management.data.Student;
 import raisetech.student.management.data.StudentCourses;
+import raisetech.student.management.domain.StudentDetail;
 import raisetech.student.management.repository.StudentRepository;
 
 @Service
 public class StudentService {
 
+  @Autowired
   private StudentRepository repository;
 
   @Autowired
@@ -29,4 +29,12 @@ public class StudentService {
   public List<StudentCourses> searchStudentCoursesList() {
     return repository.searchCourses();
   }
+
+  @Transactional
+  public void registerStudent(StudentDetail studentDetail){
+    repository.registerStudent(studentDetail.getStudent());
+    // TODO:コース情報登録も行う。
+  }
+
+
 }
