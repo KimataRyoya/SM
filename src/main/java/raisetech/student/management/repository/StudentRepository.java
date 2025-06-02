@@ -28,25 +28,24 @@ public interface StudentRepository{
   @Select("SELECT * FROM students_courses WHERE students_id = #{studentsId}")
   List<StudentsCourses>  searchCourses(String studentsId);
 
-  @Insert(
+ @Insert(
       "INSERT INTO students(name, furigana, nickname, email, area, age, gender, remark, is_deleted) "
       + "VALUES(#{name}, #{furigana}, #{nickname}, #{email}, #{area}, #{age}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true,keyProperty = "id")
   void registerStudent(Student student);
 
   @Insert("INSERT INTO students_courses(students_id, courses, start_date, end_date)"
-         + "VALUES(#{studentsId}, #{courses}, #{startDate}, #{endDate})")
-
+        + "VALUES(#{studentsId}, #{courses}, #{startDate}, #{endDate})")
+  @Options(useGeneratedKeys = true,keyProperty = "courses_id")
   void registerStudentsCourses(StudentsCourses studentsCourses);
 
 
 
   @Update("UPDATE  students SET name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
-          + "email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} WHERE id = #{id}")
+         + "email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} WHERE id = #{id}")
   void updateStudent(Student student);
 
   @Update("UPDATE students_courses SET courses = #{courses} WHERE courses_id = #{coursesId}" )
-  // ↑「courses_id」の部分が講座と違う
   void updateStudentsCourses(StudentsCourses studentsCourses);
 }
 
