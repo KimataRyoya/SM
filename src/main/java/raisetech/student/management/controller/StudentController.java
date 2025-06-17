@@ -19,26 +19,38 @@ import raisetech.student.management.data.StudentsCourses;
 import raisetech.student.management.domain.StudentDetail;
 import raisetech.student.management.service.StudentService;
 
+/**
+ * 受講生の検索や登録、更新などを行うREST APIとして受け付けるControllerです。
+ */
 @RestController
 public class StudentController {
 
 
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
+  public StudentController(StudentService service) {
     this.service = service;
-    this.converter = converter;
   }
 
+  /**
+   * 受講生一覧検索です。
+   * 全件検索を行うので、条件指定は行いません。
+   *
+   * @return　受講生一覧（全件）
+   */
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList() {
-    List<Student> students = service.searchStudentList();
-    List<StudentsCourses> studentsCourses = service.searchStudentsCoursesList();
-    return converter.convertStudentDetails(students, studentsCourses);
+    return service.searchStudentList();
   }
 
+  /**
+   * 受講生検索です。
+   * IDに基づく任意の受講生の情報を取得します。
+   *
+   * @param id　受講生ID
+   * @return　受講生
+   */
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable String id) {
     return service.searchStudent(id);
@@ -54,9 +66,9 @@ public class StudentController {
 
 
   @PostMapping("/registerStudent")
-  public ResponseEntity<String> registerStudent(@RequestBody StudentDetail studentDetail) {
-    service.registerStudent(studentDetail);
-    return ResponseEntity.ok("登録処理が成功しました。");
+  public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
+    StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
+    return ResponseEntity.ok(responseStudentDetail);
   }
 
 
