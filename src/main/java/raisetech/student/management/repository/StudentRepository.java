@@ -53,24 +53,50 @@ public interface StudentRepository{
   @Select("SELECT * FROM students_courses WHERE students_id = #{studentsId}")
   List<StudentsCourses>  searchCourses(String studentsId);
 
-
+  /**
+   * 新規受講生情報（名前、フリガナ、ニックネーム、メールアドレス、地域、年齢、性別、備考、退会有無）を追加します。
+   *
+   * @param student 受講生情報
+   */
  @Insert(
       "INSERT INTO students(name, furigana, nickname, email, area, age, gender, remark, is_deleted) "
       + "VALUES(#{name}, #{furigana}, #{nickname}, #{email}, #{area}, #{age}, #{gender}, #{remark}, false)")
+
+ /**
+  * 受講生情報のIDを自動採番します。
+  */
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudent(Student student);
 
+  /**
+   * 新規受講生コース情報（受講生ID、コース名、受講開始日、受講修了予定日）を追加します。
+   *
+   * @param studentsCourses 受講生コース情報
+   */
   @Insert("INSERT INTO students_courses(students_id, courses, start_date, end_date)"
         + "VALUES(#{studentsId}, #{courses}, #{startDate}, #{endDate})")
+
+  /**
+   * コースIDを自動採番します。
+   */
   @Options(useGeneratedKeys = true, keyProperty = "coursesId")
   void registerStudentsCourses(StudentsCourses studentsCourses);
 
 
-
+  /**
+   * 受講生IDに紐づく既存の受講生情報（名前、フリガナ、ニックネーム、メールアドレス、地域、年齢、性別、備考、退会有無）を更新します。
+   *
+   * @param student　受講生情報
+   */
   @Update("UPDATE  students SET name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
          + "email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} WHERE id = #{id}")
   void updateStudent(Student student);
 
+  /**
+   * コースIDに紐づく既存の受講生コース名を更新します。
+   *
+   * @param studentsCourses
+   */
   @Update("UPDATE students_courses SET courses = #{courses} WHERE courses_id = #{coursesId}" )
   void updateStudentsCourses(StudentsCourses studentsCourses);
 }
